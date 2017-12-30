@@ -84,7 +84,6 @@ extension Interpreter: ExprVisitor {
             try evaluateNumberOperands(op: expr.op, left: left, right: right)
             return (left as! Double) >= (right as! Double)
         case .LESS:
-            print(left, right)
             try evaluateNumberOperands(op: expr.op, left: left, right: right)
             return (left as! Double) < (right as! Double)
         case .LESS_EQUAL:

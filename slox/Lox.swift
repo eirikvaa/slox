@@ -38,7 +38,6 @@ struct Lox {
         do {
             try resolver.resolve(statements)
         } catch {
-            print(#function)
             print(error.localizedDescription)
         }
         
