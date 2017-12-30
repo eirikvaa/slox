@@ -1,0 +1,27 @@
+class A {
+    method() {
+        for (var i = 0; i < 10; i = i + 1) {
+            if (i / 2 == 1) {
+                print i;
+            } else {
+                print "Nope";
+            }
+        }
+    }
+}
+
+class B < A {
+    method() {
+        print "B method";
+    }
+
+    test() {
+        super.method();
+    }
+}
+
+class C < B {}
+
+C().test();
+
+

@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  LoxCallable.swift
 //  slox
 //
 //  Created by Eirik Vale Aase on 29.12.2017.
@@ -8,5 +8,7 @@
 
 import Foundation
 
-_ = Lox(arguments: CommandLine.arguments)
-
+protocol LoxCallable {
+    func arity() -> Int
+    func call(interpreter: Interpreter, arguments: [Any]) -> Any
+}
