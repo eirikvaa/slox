@@ -61,15 +61,21 @@ struct Scanner {
         case "-": addToken(type: .MINUS)
         case "+": addToken(type: .PLUS)
         case ";": addToken(type: .SEMICOLON)
-        case "*": addToken(type: .STAR)
+        case "*":
+            if !match(expected: "/") {
+                addToken(type: .STAR)
+            }
         case "!": addToken(type: match(expected: "=") ? .BANG_EQUAL : .BANG)
         case "=": addToken(type: match(expected: "=") ? .EQUAL_EQUAL : .EQUAL)
         case "<": addToken(type: match(expected: "=") ? .LESS_EQUAL : .LESS)
         case ">": addToken(type: match(expected: "=") ? .GREATER_EQUAL : .GREATER)
         case "/":
+            // Single-line comment
             if match(expected: "/") {
                 while peek() != "\n" && !isAtEnd() { _ = advance() }
-            } else {
+            } else if match(expected: "*") { // Multi-line comment
+                while peek() != "*" && !isAtEnd() { _ = advance() }
+            } else { // division
                 addToken(type: .SLASH)
             }
         case " ",
