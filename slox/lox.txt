@@ -1,11 +1,9 @@
+/* Dette er en kommentar */
+// Hei
 class A {
     method() {
         for (var i = 0; i < 10; i = i + 1) {
-            if (i / 2 == 1) {
-                print i;
-            } else {
-                print "Nope";
-            }
+            print i;
         }
     }
 }

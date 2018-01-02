@@ -15,6 +15,8 @@ struct Scanner {
     private var current = 0
     private var line = 1
     
+    private var insideMultiLineComment = false
+    
     private var keywords: [String: TokenType] = [
         "and": .AND,
         "class": .CLASS,
@@ -62,7 +64,9 @@ struct Scanner {
         case "+": addToken(type: .PLUS)
         case ";": addToken(type: .SEMICOLON)
         case "*":
-            if !match(expected: "/") {
+            if insideMultiLineComment && match(expected: "/") {
+                insideMultiLineComment = false
+            } else {
                 addToken(type: .STAR)
             }
         case "!": addToken(type: match(expected: "=") ? .BANG_EQUAL : .BANG)
@@ -74,7 +78,9 @@ struct Scanner {
             if match(expected: "/") {
                 while peek() != "\n" && !isAtEnd() { _ = advance() }
             } else if match(expected: "*") { // Multi-line comment
+                insideMultiLineComment = true
                 while peek() != "*" && !isAtEnd() { _ = advance() }
+                if isAtEnd() { Lox.error(line: line, message: "Undetermined multi-line comment.") }
             } else { // division
                 addToken(type: .SLASH)
             }
