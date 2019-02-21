@@ -12,13 +12,13 @@ struct LoxFunction {
     private let declaration: Stmt.Function
     private let closure: Environment
     private let isInitializer: Bool
-    
+
     init(declaration: Stmt.Function, closure: Environment, isInitializer: Bool) {
         self.declaration = declaration
         self.closure = closure
         self.isInitializer = isInitializer
     }
-    
+
     func bind(instance: LoxInstance) -> LoxFunction {
         let environment = Environment(enclosing: closure)
         environment.define(name: "this", value: instance)
@@ -30,13 +30,13 @@ extension LoxFunction: LoxCallable {
     func arity() -> Int {
         return declaration.parameters.count
     }
-    
+
     func call(interpreter: Interpreter, arguments: [Any]) -> Any {
         let environment = Environment(enclosing: closure)
-        for i in 0..<declaration.parameters.count {
+        for i in 0 ..< declaration.parameters.count {
             environment.define(name: declaration.parameters[i].lexeme, value: arguments[i])
         }
-        
+
         do {
             try interpreter.executeBlock(declaration.body, environment: environment)
         } catch let error as Return {
@@ -47,11 +47,11 @@ extension LoxFunction: LoxCallable {
         } catch {
             print(error.localizedDescription)
         }
-        
+
         if isInitializer {
             return closure.get(at: 0, name: "this")
         }
-        
+
         return NilAny
     }
 }

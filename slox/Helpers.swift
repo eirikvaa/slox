@@ -9,25 +9,24 @@
 import Foundation
 
 extension String {
-    
-    subscript (i: Int) -> Character {
+    subscript(i: Int) -> Character {
         return self[self.intIndex(at: i)!]
     }
-    
-    func intIndex (at: Int) -> Index? {
+
+    func intIndex(at: Int) -> Index? {
         if at < 0 || at >= count {
             return nil
         }
-        
-        return self.index(self.startIndex, offsetBy: at)
+
+        return index(startIndex, offsetBy: at)
     }
-    
-    func indexOf (target : Character) -> Int? {
-        var index:Int?
+
+    func indexOf(target: Character) -> Int? {
+        var index: Int?
         var current = 0
-        
+
         for c in self {
-            if (c == target) {
+            if c == target {
                 index = current
                 break
             }
@@ -35,71 +34,70 @@ extension String {
         }
         return index
     }
-    
+
     func lastIndexOf(target: Character) -> Int? {
-        var index : Int?
-        
-        for i in (0...count-1).reversed() {
-            if (self[i] == target) {
+        var index: Int?
+
+        for i in (0 ... count - 1).reversed() {
+            if self[i] == target {
                 index = i
                 break
             }
         }
         return index
     }
-    
+
     func substring(to: Int) -> String? {
         if to < 0 {
             return nil
         }
-        
-        let range = self.startIndex..<self.intIndex(at: to)!
+
+        let range = startIndex ..< intIndex(at: to)!
         return String(self[range])
-        
     }
-    
+
     func substring(from: Int, to: Int) -> String? {
-        if from > to || from < 0 || to < 0  {
+        if from > to || from < 0 || to < 0 {
             return nil
         }
-        
-        let range = self.intIndex(at: from)!..<self.intIndex(at: to)!
+
+        let range = intIndex(at: from)! ..< intIndex(at: to)!
         return String(self[range])
     }
-    
-    func split(separator:String) -> [String] {
-        return self.components(separatedBy: separator)
+
+    func split(separator: String) -> [String] {
+        return components(separatedBy: separator)
     }
-    
-    func replace(this: String, with:String) -> String {
-        return self.replacingOccurrences(of: this, with: with)
+
+    func replace(this: String, with: String) -> String {
+        return replacingOccurrences(of: this, with: with)
     }
-    
-    func trim () -> String {
-        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
+    func trim() -> String {
+        return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
-    
-    func trim (char : Character) -> String {
-        return self.trimmingCharacters(in: CharacterSet(charactersIn: "\(char)"))
+
+    func trim(char: Character) -> String {
+        return trimmingCharacters(in: CharacterSet(charactersIn: "\(char)"))
     }
-    
-    func trim (charsInString : String) -> String {
-        return self.trimmingCharacters(in: CharacterSet(charactersIn: charsInString))
+
+    func trim(charsInString: String) -> String {
+        return trimmingCharacters(in: CharacterSet(charactersIn: charsInString))
     }
-    
-    mutating func remove(at:Int) {
-        self.remove(at: self.intIndex(at: at)!)
+
+    mutating func remove(at: Int) {
+        remove(at: intIndex(at: at)!)
     }
-    
-    func removeAllChar(target : Character) -> String {
-        return self.replace(this: "\(target)", with: "")
+
+    func removeAllChar(target: Character) -> String {
+        return replace(this: "\(target)", with: "")
     }
 }
 
 extension Array {
     func peek() -> Element? {
         guard !isEmpty else { return nil }
-        
+
         return self[count - 1]
     }
 }

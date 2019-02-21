@@ -9,4 +9,3 @@
 import Foundation
 
 _ = Lox(arguments: CommandLine.arguments)
-

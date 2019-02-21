@@ -10,10 +10,10 @@ import Foundation
 
 enum RuntimeError: Error {
     case runtime(Token, String)
-    
+
     func values() -> (Token, String) {
         switch self {
-        case .runtime(let token, let message):
+        case let .runtime(token, message):
             return (token, message)
         }
     }

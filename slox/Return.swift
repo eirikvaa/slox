@@ -10,10 +10,10 @@ import Foundation
 
 enum Return: Error {
     case returnValue(Any?)
-    
+
     func value() -> Any? {
         switch self {
-        case .returnValue(let value):
+        case let .returnValue(value):
             return value
         }
     }

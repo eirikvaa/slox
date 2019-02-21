@@ -12,58 +12,58 @@ import Foundation
 let NilAny: Any = Optional<Any>.none as Any
 
 class Environment {
-    var enclosing: Environment? = nil
+    var enclosing: Environment?
     private var values: [String: Any] = [:]
-    
+
     func define(name: String, value: Any) {
         values[name] = value
     }
-    
+
     func ancestor(distance: Int) -> Environment? {
         var environment: Environment? = self
-        
-        for _ in 0..<distance {
+
+        for _ in 0 ..< distance {
             environment = environment?.enclosing
         }
-        
+
         return environment
     }
-    
+
     func get(at distance: Int, name: String) -> Any {
         return ancestor(distance: distance)?.values[name] as Any
     }
-    
+
     func assign(at distance: Int, name: Token, value: Any) {
         ancestor(distance: distance)?.values[name.lexeme] = value
     }
-    
+
     func get(name: Token) throws -> Any {
         if values.keys.contains(name.lexeme) {
             if let unwrapped = values[name.lexeme] {
                 return unwrapped
             }
-            
+
             return NilAny
         }
-        
+
         if let enclosing = enclosing {
             return try enclosing.get(name: name)
         }
-        
+
         throw RuntimeError.runtime(name, "Undefined variable '\(name.lexeme)'.")
     }
-    
+
     func assign(name: Token, value: Any?) throws {
         if values.keys.contains(name.lexeme) {
             values[name.lexeme] = value
             return
         }
-        
+
         if let enclosing = enclosing {
             try enclosing.assign(name: name, value: value)
             return
         }
-        
+
         throw RuntimeError.runtime(name, "Undefined variable '\(name.lexeme)'.")
     }
 }
@@ -71,7 +71,7 @@ class Environment {
 extension Environment {
     convenience init(enclosing: Environment) {
         self.init()
-        
+
         self.enclosing = enclosing
     }
 }
